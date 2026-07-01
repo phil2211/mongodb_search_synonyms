@@ -1,0 +1,2 @@
+pymongo>=4.0
+graphviz>=0.20

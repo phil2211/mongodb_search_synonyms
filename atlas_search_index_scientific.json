@@ -1,0 +1,107 @@
+{
+  "analyzers": [
+    {
+      "name": "scientific_gene_analyzer",
+      "tokenizer": {
+        "type": "regexCaptureGroup",
+        "pattern": "(\\d+\\p{L}+\\s+[\\p{L}\\p{N}]+|\\d+'[-][\\p{L}\\p{N}]+|'[\\p{L}\\p{M}\\p{N}@_.+-]+'|[\\p{L}\\p{M}\\p{N}@_()/]+(?:[-'.\u00b7:@+_/()][\\p{L}\\p{M}\\p{N}@_()/]+)*)",
+        "group": 1
+      },
+      "tokenFilters": [
+        {
+          "type": "regex",
+          "pattern": "^'+|'+$",
+          "replacement": "",
+          "matches": "all"
+        },
+        {
+          "type": "length",
+          "min": 2,
+          "max": 256
+        }
+      ]
+    }
+  ],
+  "mappings": {
+    "dynamic": false,
+    "fields": {
+      "abstract_text": {
+        "type": "string"
+      },
+      "body_text": {
+        "type": "string",
+        "analyzer": "lucene.standard",
+        "searchAnalyzer": "lucene.standard",
+        "indexOptions": "offsets",
+        "multi": {
+          "scientificGeneAnalyzer": {
+            "type": "string",
+            "analyzer": "scientific_gene_analyzer",
+            "searchAnalyzer": "scientific_gene_analyzer"
+          }
+        }
+      },
+      "figure_captions": {
+        "type": "string"
+      },
+      "title": {
+        "type": "string"
+      },
+      "data_provider": {
+        "type": "token"
+      },
+      "doc_type": {
+        "type": "token"
+      },
+      "granted_rights": {
+        "type": "document",
+        "fields": {
+          "ai_finetuning": {
+            "type": "boolean"
+          },
+          "ai_inference": {
+            "type": "boolean"
+          },
+          "ai_training": {
+            "type": "boolean"
+          },
+          "perpetual_access": {
+            "type": "boolean"
+          }
+        }
+      },
+      "issn": {
+        "type": "document",
+        "fields": {
+          "value": {
+            "type": "token"
+          }
+        }
+      },
+      "issue": {
+        "type": "token"
+      },
+      "last_record_update": {
+        "type": "date"
+      },
+      "publication_date": {
+        "type": "date"
+      },
+      "source_title": {
+        "type": "token"
+      },
+      "volume": {
+        "type": "token"
+      }
+    }
+  },
+  "synonyms": [
+    {
+      "name": "synonym_mapping",
+      "analyzer": "lucene.keyword",
+      "source": {
+        "collection": "gene_synonyms"
+      }
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+# Environment and secrets
+.env
+.venv/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+
+# IDE / local
+.cursor/
+
+# Large MeSH source data (download separately)
+desc2026.xml
+desc2026.jsonl
+
+# Generated outputs
+search_results.html
+mesh_graph_*
+mesh_tree_*.html
